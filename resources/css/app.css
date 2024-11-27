@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+    @apply w-full p-2 bg-orange-500 text-white rounded-md;
+}
+
+.form-control {
+    @apply w-full p-2 border border-gray-300 rounded-md;
+}
+
+.content {
+    @apply ml-80 mt-3 p-4 bg-gray-300 rounded-xl mr-5 mb-10;
+}
+
+.sidebar {
+    @apply fixed h-4/5 mb-10 w-64 bg-gradient-to-br from-orange-600 to-orange-300 text-white rounded-xl ml-5 p-0;
+}
+
+.sidebar-header {
+    @apply bg-gradient-to-r from-orange-600 to-orange-400 text-white p-4 text-2xl rounded-t-xl border-b border-gray-300;
+ }
+
+ .navbar {
+    @apply p-5 text-orange-400 border-b-2 border-orange-400 m-5;
+ }
+
+ .sidebar-body {
+    @apply p-4 mt-4;
+ }
+
+ .menu {
+    @apply mb-4;
+ }
+
+ .menu li {
+    @apply p-3 pl-5 rounded-md hover:bg-orange-300 hover:text-gray-800;
+ }
