@@ -35,7 +35,7 @@
 }
 
 .content {
-    @apply ml-80 mt-3 p-4 bg-gray-300 rounded-xl mr-5 mb-10;
+    @apply ml-5 mt-0 p-4 bg-gray-300 rounded-xl mr-5 mb-10;
 }
 
 .content-header {
@@ -51,11 +51,11 @@
 }
 
 .sidebar {
-    @apply fixed h-4/5 mb-10 w-64 bg-gradient-to-br from-orange-600 to-orange-300 text-white rounded-xl ml-5 p-0;
+    @apply h-4/5 mb-10 w-72 bg-gradient-to-br from-orange-600 to-orange-400 text-white rounded-xl ml-5 p-0;
 }
 
 .sidebar-header {
-    @apply bg-gradient-to-r from-orange-600 to-orange-400 text-white p-4 text-2xl rounded-t-xl border-b border-gray-300;
+    @apply bg-gradient-to-r from-orange-600 to-orange-400 text-white p-4 text-xl rounded-t-xl border-b border-gray-300;
  }
 
  .navbar {
@@ -63,7 +63,7 @@
  }
 
  .sidebar-body {
-    @apply p-4 mt-4;
+    @apply p-3 mt-4;
  }
 
  .menu {
@@ -72,4 +72,44 @@
 
  .menu li {
     @apply p-3 pl-5 rounded-md hover:bg-orange-300 hover:text-gray-800;
+ }
+
+ .active {
+    @apply bg-orange-300 text-gray-800;
+ }
+
+ .btn-edit {
+    @apply bg-blue-500 py-2 px-2 text-white pl-4 rounded-md text-xl;
+ }
+
+ .btn-delete {
+    @apply bg-red-500 py-2 px-2 text-white pl-4 rounded-md text-xl;
+ }
+
+ .table {
+    @apply w-full;
+ }
+
+ .table th {
+    @apply bg-gray-400 p-2 pl-3;
+ }
+
+ .table th:first-child {
+    @apply rounded-tl-2xl;
+ }
+
+ .table th:last-child {
+    @apply rounded-tr-2xl;
+ }
+
+ .table td {
+    @apply pl-3 p-2 bg-gray-100;
+ }
+
+ .table tr:last-child td:first-child {
+    @apply rounded-bl-2xl;
+ }
+
+ .table tr:last-child td:last-child {
+    @apply rounded-br-2xl;
  }

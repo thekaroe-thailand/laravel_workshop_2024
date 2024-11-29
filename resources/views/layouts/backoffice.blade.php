@@ -14,10 +14,14 @@
 </head>
 
 <body class="bg-gray-800">
-    <x-sidebar />
+    @livewire('navbar')
 
-    <div class="content">
-        @yield('content')
+    <div class="flex">
+        <x-sidebar />
+
+        <div class="content w-full">
+            @yield('content')
+        </div>
     </div>
 
     @livewireScripts
