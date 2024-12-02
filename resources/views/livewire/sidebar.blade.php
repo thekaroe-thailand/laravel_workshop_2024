@@ -14,7 +14,7 @@
                 <li wire:click="changeMenu('room')" @if ($currentMenu == 'room') class="active" @endif>
                     <i class="fa-solid fa-home me-2"></i>ห้องพัก
                 </li>
-                <li wire:click="changeMenu('user/index')" @if ($currentMenu == 'user/index') class="active" @endif>
+                <li wire:click="changeMenu('customer')" @if ($currentMenu == 'customer') class="active" @endif>
                     <i class="fa-solid fa-user me-2"></i>ผู้เข้าพัก
                 </li>
                 <li wire:click="changeMenu('user/index')" @if ($currentMenu == 'user/index') class="active" @endif>

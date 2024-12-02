@@ -18,6 +18,7 @@ class Room extends Component {
     public $to_number;
     public $price_per_day;
     public $price_per_month;
+    public $nameForDelete;
 
     public function mount() {
         $this->fetchData();
@@ -25,6 +26,10 @@ class Room extends Component {
 
     public function openModal() {
         $this->showModal = true;
+        $this->from_number = '';
+        $this->to_number = '';
+        $this->price_per_day = '';
+        $this->price_per_month = '';
     }
 
     public function openModalEdit($id) {
@@ -40,6 +45,9 @@ class Room extends Component {
     public function openModalDelete($id) {
         $this->showModalDelete = true;
         $this->id = $id;
+
+        $room = RoomModel::find($id);
+        $this->nameForDelete = $room->name;
     }
 
     public function updateRoom() {
@@ -48,6 +56,9 @@ class Room extends Component {
         $room->price_per_day = $this->price_day;
         $room->price_per_month = $this->price_month;
         $room->save();
+
+        $this->showModalEdit = false;
+        $this->fetchData();
     }
 
     public function deleteRoom() {
@@ -61,7 +72,7 @@ class Room extends Component {
 
     public function fetchData() {
         $this->rooms = RoomModel::where('status', 'use')
-        ->orderBy('id', 'desc')
+        ->orderBy('id', 'asc')
         ->get();
     }
 
