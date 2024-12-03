@@ -1,6 +1,6 @@
 <?php
 
-namespace App\App\Http\Controllers;
+namespace App\Http\Controllers;
 
 class CustomerController extends Controller{
     public function index() {
