@@ -98,8 +98,8 @@
         </div>
     </x-modal>
 
-    <x-modal-confirm wire:model="showModalDelete" title="ลบผู้เข้าพัก" text="คุณต้องการลบผู้เข้าพักนี้หรือไม่?"
-        clickConfirm="delete" clickCancel="closeModalDelete" />
+    <x-modal-confirm showModalDelete="showModalDelete" title="ลบผู้เข้าพัก" text="คุณต้องการลบผู้เข้าพักนี้หรือไม่?"
+        clickConfirm="delete" clickCancel="showModalDelete = false" />
 
     <x-modal wire:model="showModalMove" title="ย้ายห้องพัก">
         <div>ห้องใหม่</div>

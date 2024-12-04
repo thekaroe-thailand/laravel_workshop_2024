@@ -1,6 +1,6 @@
-@props(['title', 'text', 'clickConfirm', 'clickCancel'])
+@props(['title', 'text', 'clickConfirm', 'clickCancel', 'showModalDelete'])
 
-<x-modal wire:model='showModalDelete' title="{{ $title }}" maxWidth="xl">
+<x-modal wire:model='{{ $showModalDelete }}' zIndex="51" title="{{ $title }}" maxWidth="xl">
     <div class="p-5 text-center text-xl">
         <div class="text-8xl text-orange-500 mb-5">
             <i class="fa fa-question"></i>
