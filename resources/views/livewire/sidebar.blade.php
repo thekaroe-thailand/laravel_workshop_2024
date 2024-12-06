@@ -17,7 +17,7 @@
                 <li wire:click="changeMenu('customer')" @if ($currentMenu == 'customer') class="active" @endif>
                     <i class="fa-solid fa-user me-2"></i>ผู้เข้าพัก
                 </li>
-                <li wire:click="changeMenu('user/index')" @if ($currentMenu == 'user/index') class="active" @endif>
+                <li wire:click="changeMenu('user')" @if ($currentMenu == 'user') class="active" @endif>
                     <i class="fa-solid fa-gear me-2"></i>ผู้ใช้งาน
                 </li>
                 <li wire:click="changeMenu('company/index')" @if ($currentMenu == 'company/index') class="active" @endif>
