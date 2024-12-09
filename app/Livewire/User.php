@@ -71,11 +71,18 @@ class User extends Component {
 
         $this->fetchData();
         $this->closeModal();
+
+        $this->id = null;
     }
 
     public function openModalEdit($id) {
         $this->id = $id;
         $this->showModal = true;
+
+        $user = UserModel::find($id);
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->level = $user->level;
     }
 
     public function closeModalEdit() {
