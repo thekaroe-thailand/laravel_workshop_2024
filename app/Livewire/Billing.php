@@ -42,23 +42,35 @@ class Billing extends Component {
     }
 
     public function fetchData() {
-        $this->rooms = RoomModel::where('is_empty', 'no')
-            ->where('status', 'use')
-            ->orderBy('id', 'desc')
-            ->get();
+        $customers = CustomerModel::where('status', 'use')->get();
+        $rooms = [];
 
-        $this->billings = BillingModel::orerBy('id', 'desc')->get();
-        $roomNoBilling = [];
+        $this->billings = BillingModel::orderBy('id', 'desc')->get();
 
-        foreach ($this->rooms as $room) {
+        foreach ($customers as $customer) {
+            $isBilling = false;
+
             foreach ($this->billings as $billing) {
-                if ($billing->room_id == $room->id) {
-                    $roomNoBilling[] = $room;
+                if ($billing->room_id == $customer->room_id) {
+                    $isBilling = true;
+                    break;
                 }
+            }
+
+            if (!$isBilling) {
+                $rooms[] = [
+                    'id' => $customer->room_id, 
+                    'name' => $customer->room->name
+                ];
             }
         }
 
-        $this->rooms = $roomNoBilling;
+        $this->rooms = $rooms;
+        
+        if (count($rooms) > 0) {
+            $this->roomId = $rooms[0]['id'];
+            $this->selectedRoom();
+        }
     }
 
     public function render() {
@@ -79,7 +91,7 @@ class Billing extends Component {
         
         $this->customerName = $customer->name;
         $this->customerPhone = $customer->phone;
-        $this->amountRent = $room->amount_rent;
+        $this->amountRent = $room->price_per_month;
 
         $this->computeSumAmount();
     }
@@ -99,20 +111,47 @@ class Billing extends Component {
         $billing->room_id = $this->roomId;
         $billing->created_at = $this->createdAt;
         $billing->status = $this->status;
-        $billing->remark = $this->remark;
-        $billing->amount_rent = $this->amountRent;
-        $billing->amount_water = $this->amountWater;
-        $billing->amount_electric = $this->amountElectric;
-        $billing->amount_internet = $this->amountInternet;
-        $billing->amount_fitness = $this->amountFitness;
-        $billing->amount_wash = $this->amountWash;
-        $billing->amount_bin = $this->amountBin;
-        $billing->amount_etc = $this->amountEtc;
+        $billing->remark = $this->remark ?? '';
+        $billing->amount_rent = $this->amountRent ?? 0;
+        $billing->amount_water = $this->amountWater ?? 0;
+        $billing->amount_electric = $this->amountElectric ?? 0;
+        $billing->amount_internet = $this->amountInternet ?? 0;
+        $billing->amount_fitness = $this->amountFitness ?? 0;
+        $billing->amount_wash = $this->amountWash ?? 0;
+        $billing->amount_bin = $this->amountBin ?? 0;
+        $billing->amount_etc = $this->amountEtc ?? 0;
         $billing->save();
 
         $this->fetchData();
         $this->closeModal();
 
         $this->id = null;
+    }
+
+    public function openModalEdit($id) {
+        $this->showModal = true;
+        $this->billing = BillingModel::find($id);
+    }
+
+    public function closeModalEdit() {
+        $this->showModal = false;
+    }
+
+    public function openModalDelete($id, $name) {
+        $this->showModalDelete = true;
+        $this->id = $id;
+        $this->roomForDelete = $name;
+    }
+
+    public function closeModalDelete() {
+        $this->showModalDelete = false;
+    }
+
+    public function deleteBilling() {
+        $billing = BillingModel::find($this->id);
+        $billing->delete();
+
+        $this->fetchData();
+        $this->closeModalDelete();
     }
 }
