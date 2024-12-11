@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\BillingModel;
 use App\Models\CustomerModel;
 use App\Models\RoomModel;
+use App\Models\OrganizationModel;
+use Illuminate\Support\Facades\Log;
 
 class Billing extends Component {
     public $showModal = false;
@@ -34,6 +36,11 @@ class Billing extends Component {
     ];
     public $sumAmount = 0;
     public $roomForDelete;
+    public $waterUnit = 0;
+    public $electricUnit = 0;
+    public $waterCostPerUnit = 0;
+    public $electricCostPerUnit = 0;
+    public $roomNameForEdit = '';
 
     public function mount() {
         $this->fetchData();
@@ -88,6 +95,20 @@ class Billing extends Component {
     public function selectedRoom() {
         $room = RoomModel::find($this->roomId);
         $customer = CustomerModel::where('room_id', $this->roomId)->first();
+        $organization = OrganizationModel::first();
+
+        if ($organization->amount_water > 0) {
+            $this->amountWater = $organization->amount_water;
+        } else {
+            $this->waterCostPerUnit = $organization->amount_water_per_unit;
+        }
+
+        if ($organization->amount_electric_per_unit > 0) {
+            $this->electricCostPerUnit = $organization->amount_electric_per_unit;
+        }
+
+        $this->amountInternet = $organization->amount_internet;
+        $this->amountEtc = $organization->amount_etc;
         
         $this->customerName = $customer->name;
         $this->customerPhone = $customer->phone;
@@ -97,6 +118,17 @@ class Billing extends Component {
     }
 
     public function computeSumAmount() {
+        if ($this->waterUnit > 0) {
+            $this->amountWater = $this->waterUnit * $this->waterCostPerUnit;
+        }
+
+        if ($this->electricUnit > 0) {
+            $this->amountElectric = $this->electricUnit * $this->electricCostPerUnit;
+        }
+
+        $this->amountWater = $this->amountWater ?? 0;
+        $this->amountElectric = $this->amountElectric ?? 0;
+
         $this->sumAmount = $this->amountRent + $this->amountWater + $this->amountElectric 
         + $this->amountInternet + $this->amountFitness + $this->amountWash 
         + $this->amountBin + $this->amountEtc;
@@ -108,6 +140,7 @@ class Billing extends Component {
         if ($this->id != null) {
             $billing = BillingModel::find($this->id);
         }
+
         $billing->room_id = $this->roomId;
         $billing->created_at = $this->createdAt;
         $billing->status = $this->status;
@@ -126,11 +159,29 @@ class Billing extends Component {
         $this->closeModal();
 
         $this->id = null;
+        $this->waterUnit = 0;
+        $this->electricUnit = 0;
+        $this->electricCostPerUnit = 0;
+        $this->waterCostPerUnit = 0;
     }
 
     public function openModalEdit($id) {
         $this->showModal = true;
         $this->billing = BillingModel::find($id);
+        $this->id = $id;
+        $this->roomId = $this->billing->room_id;
+
+        $this->selectedRoom();
+        $this->amountWater = $this->billing->amount_water;
+        $this->amountElectric = $this->billing->amount_electric;
+
+        $this->roomNameForEdit = $this->billing->room->name;
+    
+        $organization = OrganizationModel::first();    
+        $this->waterUnit = $this->amountWater / $organization->amount_water_per_unit;
+        $this->electricUnit = $this->amountElectric / $organization->amount_electric_per_unit;
+
+        $this->computeSumAmount();
     }
 
     public function closeModalEdit() {

@@ -51,7 +51,7 @@
 }
 
 .alert-success {
-    @apply bg-green-500 text-white;
+    @apply bg-green-600 text-white;
 }
 
 .sidebar {

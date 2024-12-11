@@ -55,13 +55,18 @@
         <div class="flex gap-2 justify-between">
             <div class="w-1/3">
                 <div>ห้อง</div>
-                <select class="form-control" wire:model="roomId" wire:change="selectedRoom()">
-                    @foreach ($rooms as $room)
-                        <option value="{{ $room['id'] }}">
-                            {{ $room['name'] }}
-                        </option>
-                    @endforeach
-                </select>
+
+                @if ($id != null)
+                    <input type="text" class="form-control bg-gray-200" value="{{ $roomNameForEdit }}" readonly />
+                @else
+                    <select class="form-control" wire:model="roomId" wire:change="selectedRoom()">
+                        @foreach ($rooms as $room)
+                            <option value="{{ $room['id'] }}">
+                                {{ $room['name'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                @endif
             </div>
             <div class="w-1/3">
                 <div>วันที่</div>
@@ -106,13 +111,31 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="text-left">ค่าน้ำ</td>
+                    <td class="text-left">
+                        <div class="flex gap-2">
+                            <div class="w-1/3">ค่าน้ำ</div>
+                            <div class="w-1/3">
+                                <input type="number" class="form-control text-right" wire:model="waterUnit"
+                                    wire:change="computeSumAmount()" />
+                            </div>
+                            <div class="w-1/3">หน่วย</div>
+                        </div>
+                    </td>
                     <td><input type="number" class="form-control text-right" wire:model="amountWater"
                             wire:change="computeSumAmount()" />
                     </td>
                 </tr>
                 <tr>
-                    <td class="text-left">ค่าไฟฟ้า</td>
+                    <td class="text-left">
+                        <div class="flex gap-2">
+                            <div class="w-1/3">ค่าไฟฟ้า</div>
+                            <div class="w-1/3">
+                                <input type="number" class="form-control text-right" wire:model="electricUnit"
+                                    wire:change="computeSumAmount()" />
+                            </div>
+                            <div class="w-1/3">หน่วย</div>
+                        </div>
+                    </td>
                     <td><input type="number" class="form-control text-right" wire:model="amountElectric"
                             wire:change="computeSumAmount()" />
                     </td>

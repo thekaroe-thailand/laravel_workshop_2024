@@ -35,7 +35,30 @@
             <input type="file" class="form-control bg-white" wire:model="logo">
         </div>
 
-        <button type="submit" class="btn-primary mt-3">
+        <div class="flex gap-3 mt-3">
+            <div class="w-1/5">
+                <div for="amount_water" class="text-right">ค่าน้้ำ/เดือน</div>
+                <input type="number" class="form-control text-right" wire:model="amount_water">
+            </div>
+            <div class="w-1/5">
+                <div for="amount_water_per_unit" class="text-right">ค่าน้ำ/หน่วย</div>
+                <input type="number" class="form-control text-right" wire:model="amount_water_per_unit">
+            </div>
+            <div class="w-1/5">
+                <div for="amount_electric_per_unit" class="text-right">ค่าไฟ/หน่วย</div>
+                <input type="number" class="form-control text-right" wire:model="amount_electric_per_unit">
+            </div>
+            <div class="w-1/5">
+                <div for="amount_internet" class="text-right">ค่า internet</div>
+                <input type="number" class="form-control text-right" wire:model="amount_internet">
+            </div>
+            <div class="w-1/5">
+                <div for="amount_etc" class="text-right">ค่าอื่นๆ</div>
+                <input type="number" class="form-control text-right" wire:model="amount_etc">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary mt-5">
             <i class="fa-solid fa-check mr-2"></i> บันทึก
         </button>
 
