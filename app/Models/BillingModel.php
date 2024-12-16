@@ -14,6 +14,7 @@ class BillingModel extends Model
         'room_id', 'remark', 'status', 'amount_rent', 
         'created_at', 'amount_water', 'amount_electric', 'amount_internet',
         'amount_fitness', 'amount_wash', 'amount_bin', 'amount_etc',
+        'money_added'
     ];
 
     public $timestamps = false;

@@ -20,7 +20,7 @@
                     <th class="text-right">ยอดเงิน</th>
                     <th class="text-center">สถานะ</th>
                     <th class="text-left">หมายเหตุ</th>
-                    <th width="190px">จัดการ</th>
+                    <th width="230px">จัดการ</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +34,9 @@
                         <td class="text-center">{{ $billing->getStatusName() }}</td>
                         <td>{{ $billing->remark }}</td>
                         <td>
+                            <button class="btn-edit" wire:click="openModalGetMoney({{ $billing->id }})">
+                                <i class="fa fa-dollar-sign mr-2"></i>
+                            </button>
                             <button class="btn-edit" wire:click="printBilling({{ $billing->id }})">
                                 <i class="fa fa-file-alt mr-2"></i>
                             </button>
@@ -190,4 +193,32 @@
     <x-modal-confirm title="ยืนยันการลบ" text="คุณต้องการลบรายการห้อง {{ $roomForDelete }} หรือไม่?"
         showModalDelete="showModalDelete" clickConfirm="deleteBilling()" clickCancel="closeModalDelete()">
     </x-modal-confirm>
+
+    <x-modal title="รับเงิน" wire:model="showModalGetMoney">
+        <div>ห้อง : {{ $roomNameForGetMoney }}</div>
+        <div class="mt-3">ผู้เช่า : {{ $customerNameForGetMoney }}</div>
+        <div class="mt-3">วันที่ชำระ</div>
+        <input type="date" class="form-control" wire:model="payedDateForGetMoney" />
+
+        <div class="mt-3">ยอดรวมค่าใช้จ่าย :
+            <span class="font-bold">{{ number_format($sumAmountForGetMoney) }}</span>
+            บาท
+        </div>
+        <div class="mt-3">ยอดรับเงิน</div>
+        <input type="number" class="form-control" wire:model="moneyAdded" />
+
+        <div class="mt-3">หมายเหตุ</div>
+        <input type="text" class="form-control" wire:model="remarkForGetMoney" />
+
+        <div class="text-center mt-5">
+            <button class="btn-success" wire:click="saveGetMoney()">
+                <i class="fa fa-check mr-2"></i>
+                บันทึก
+            </button>
+            <button class="btn-danger" wire:click="closeModalGetMoney()">
+                <i class="fa fa-times mr-2"></i>
+                ยกเลิก
+            </button>
+        </div>
+    </x-modal>
 </div>
