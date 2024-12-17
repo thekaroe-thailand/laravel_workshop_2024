@@ -57,7 +57,5 @@
 </table>
 
 <script>
-    // print and prev location
     window.print();
-    //window.location.href = 'http://localhost:8000/billing';
 </script>
