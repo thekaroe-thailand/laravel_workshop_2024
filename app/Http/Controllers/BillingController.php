@@ -16,4 +16,11 @@ class BillingController extends Controller {
         
         return view('print-billing', compact('billing', 'organization'));
     }
+
+    public function printInvoice($billingId) {
+        $billing = BillingModel::find($billingId);
+        $organization = OrganizationModel::first();
+
+        return view('print-invoice', compact('billing', 'organization'));
+    }
 }
