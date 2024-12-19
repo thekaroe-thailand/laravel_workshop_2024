@@ -51,6 +51,7 @@ class Billing extends Component {
     public $remarkForGetMoney = '';
     public $sumAmountForGetMoney = 0;
     public $amountForGetMoney = 0;
+    public $billing; 
 
     public function mount() {
         $this->fetchData();
