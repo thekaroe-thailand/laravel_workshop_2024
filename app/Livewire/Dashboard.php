@@ -14,6 +14,7 @@ class Dashboard extends Component {
     public $debt = 0;
     public $pay = 0;
     public $incomeInMonths = [];
+    public $incomePie = [];
 
     public function mount() {
         // รายได้
@@ -53,6 +54,19 @@ class Dashboard extends Component {
 
             $this->incomeInMonths[$i] = $sum;
         }
+
+        // random income per 12 months
+        for ($i = 1; $i <= 12; $i++) {
+            $this->incomeInMonths[$i] = rand(1000, 10000);
+        }
+
+        $incomeTypeDay = rand(1000, 10000);
+        $incomeTypeMonth = rand(1000, 10000);
+
+        $this->incomePie = [
+            $incomeTypeDay,
+            $incomeTypeMonth
+        ];
     }
 
     public function render() {

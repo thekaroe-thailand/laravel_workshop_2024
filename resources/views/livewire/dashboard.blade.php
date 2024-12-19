@@ -38,5 +38,57 @@
                 <div class="text-4xl">{{ number_format($income - $pay) }}</div>
             </div>
         </div>
+
+        <div class="flex gap-4">
+            <div id="incomeChart" class="mt-4 bg-white p-4 rounded-lg w-2/3"></div>
+            <div id="pieChart" class="mt-4 bg-white p-4 rounded-lg w-1/3"></div>
+        </div>
     </div>
 </div>
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        document.addEventListener('livewire:init', function() {
+            var options = {
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                series: [{
+                    name: 'รายได้',
+                    data: @json(array_values($incomeInMonths))
+                }],
+                xaxis: {
+                    categories: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.',
+                        'ต.ค.', 'พ.ย.', 'ธ.ค.'
+                    ]
+                },
+                title: {
+                    text: 'รายได้รายเดือน',
+                    align: 'center'
+                }
+            }
+
+            var chart = new ApexCharts(document.querySelector("#incomeChart"), options);
+            chart.render();
+
+            // pie chart รายวัน และ รายเดือน
+            var pieOptions = {
+                series: @json($incomePie),
+                chart: {
+                    type: 'pie',
+                    height: 350
+                },
+                labels: ['รายวัน', 'รายเดือน'],
+                title: {
+                    text: 'รายได้รายประเภท',
+                    align: 'center'
+                }
+            }
+
+            var pieChart = new ApexCharts(document.querySelector("#pieChart"), pieOptions);
+            pieChart.render();
+        });
+    </script>
+@endpush
