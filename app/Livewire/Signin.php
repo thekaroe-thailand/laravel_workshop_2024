@@ -16,6 +16,10 @@ class Signin extends Component
     public $error = null;
 
     public function signin() {
+        logger('Signin attempt', [
+            'username' => $this->username
+        ]);
+
         $this->errorUsername = null;
         $this->errorPassword = null;
 
@@ -31,17 +35,23 @@ class Signin extends Component
             $this->errorUsername = $validator->errors()->get('username')[0] ?? null;
             $this->errorPassword = $validator->errors()->get('password')[0] ?? null;
         } else {
-            $user = User::where('name', $this->username)
-            ->first();
+            try {
+                $user = User::where('name', $this->username)->first();
 
-            if ($user && Hash::check($this->password, $user->password)) {
-                session()->put('user_id', $user->id);
-                session()->put('user_name', $user->name);
-                session()->put('user_level', $user->level);
-                
-                $this->redirect('/dashboard');
-            } else {
-                $this->error = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+                if ($user && Hash::check($this->password, $user->password)) {
+                    session()->put('user_id', $user->id);
+                    session()->put('user_name', $user->name);
+                    session()->put('user_level', $user->level);
+                    
+                    $this->redirect('/dashboard');
+                } else {
+                    $this->error = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+                }
+            } catch (\Exception $e) {
+                logger('Signin error', [
+                    'error' => $e->getMessage()
+                ]);
+                $this->error = 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ';
             }
         }
     }
