@@ -22,7 +22,7 @@
             </div>
 
             <div class="w-[200px]">
-                <button class="btn-info ml-2" wire:click="fetchData">
+                <button class="btn-info ml-2" wire:click="loadNewData">
                     <i class="fa-solid fa-magnifying-glass mr-2"></i>
                     แสดงรายการ
                 </button>
@@ -78,53 +78,56 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         document.addEventListener('livewire:init', function() {
-            var options = {
-                chart: {
-                    type: 'bar',
-                    height: 350
-                },
-                series: [{
-                    name: 'รายได้',
-                    data: @json(array_values($incomeInMonths))
-                }],
-                xaxis: {
-                    categories: [
-                        'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.',
-                        'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.',
-                        'ต.ค.', 'พ.ย.', 'ธ.ค.'
-                    ]
-                },
-                title: {
-                    text: 'รายได้รายเดือน',
-                    align: 'center'
-                }
+            var incomeChart = null;
+            var pieChart = null;
+
+            function initIncomeChart() {
+                const options = {
+                    chart: {
+                        type: 'bar',
+                        height: 350
+                    },
+                    series: [{
+                        name: 'รายได้',
+                        data: @json(array_values($incomeInMonths))
+                    }],
+                    xaxis: {
+                        categories: [
+                            'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.',
+                            'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.',
+                            'ต.ค.', 'พ.ย.', 'ธ.ค.'
+                        ]
+                    },
+                    title: {
+                        text: 'รายได้รายเดือน',
+                        align: 'center'
+                    }
+                };
+
+                incomeChart = new ApexCharts(document.querySelector("#incomeChart"), options);
+                incomeChart.render();
             }
 
-            window.addEventListener('incomeUpdated', function() {
-                options.series[0].data = @json(array_values($incomeInMonths));
-                var chart = new ApexCharts(document.querySelector("#incomeChart"), options);
-                chart.render();
-            });
+            function initPieChart() {
+                const pieOptions = {
+                    series: @json(array_values($incomePie)),
+                    chart: {
+                        type: 'pie',
+                        height: 350
+                    },
+                    labels: ['รายวัน', 'รายเดือน'],
+                    title: {
+                        text: 'รายได้รายประเภท',
+                        align: 'center'
+                    }
+                };
 
-            var chart = new ApexCharts(document.querySelector("#incomeChart"), options);
-            chart.render();
-
-            // pie chart รายวัน และ รายเดือน
-            var pieOptions = {
-                series: @json($incomePie),
-                chart: {
-                    type: 'pie',
-                    height: 350
-                },
-                labels: ['รายวัน', 'รายเดือน'],
-                title: {
-                    text: 'รายได้รายประเภท',
-                    align: 'center'
-                }
+                pieChart = new ApexCharts(document.querySelector("#pieChart"), pieOptions);
+                pieChart.render();
             }
 
-            var pieChart = new ApexCharts(document.querySelector("#pieChart"), pieOptions);
-            pieChart.render();
+            initIncomeChart();
+            initPieChart();
         });
     </script>
 @endpush

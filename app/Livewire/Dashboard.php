@@ -28,6 +28,12 @@ class Dashboard extends Component {
         $this->selectedYear = date('Y');
         $this->selectedMonth = date('m');
 
+        // read from url
+        if (request()->has('year') && request()->has('month')) {
+            $this->selectedYear = request()->query('year');
+            $this->selectedMonth = request()->query('month');
+        }
+
         // year list 5 year ago
         for ($i = 0; $i < 5; $i++) {
             $this->yearList[] = date('Y') - $i;
@@ -73,7 +79,7 @@ class Dashboard extends Component {
             ->whereMonth('pay_date', $this->selectedMonth)
             ->sum('amount');
 
-        // รายได้ในแต่ละเดือน
+        // รายได้ในแต่ละเดือน        
         for ($i = 1; $i <= 12; $i++) {
             $billingsInMonth = BillingModel::where('status', 'paid')
                 ->whereYear('payed_date', $this->selectedYear)
@@ -91,7 +97,7 @@ class Dashboard extends Component {
 
         // random income per 12 months
         for ($i = 1; $i <= 12; $i++) {
-            //$this->incomeInMonths[$i] = rand(1000, 10000);
+            $this->incomeInMonths[$i] = rand(1000, 10000);
         }
 
         $incomeTypeDay = rand(1000, 10000);
@@ -101,8 +107,10 @@ class Dashboard extends Component {
             $incomeTypeDay,
             $incomeTypeMonth
         ];
+    }
 
-        $this->dispatch('incomeUpdated'); // ส่งข้อมูลไปยังหน้า Blade
+    public function loadNewData() {
+        return redirect()->to('/dashboard?year=' . $this->selectedYear . '&month=' . $this->selectedMonth);
     }
 
     public function render() {
