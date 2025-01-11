@@ -38,6 +38,46 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="mt-3">ข้อมูลทั้งหมด {{ $totalPages }} หน้า</div>
+        <div class="flex justify-center">
+            <!-- หน้าแรก -->
+            @if ($currentPage > 1)
+                <button class="bg-blue-900 text-white px-4 py-1 rounded mr-1" wire:click="setPage(1)">
+                    <i class="fa fa-angle-left mr-2"></i>
+                    หน้าแรก
+                </button>
+            @else
+                <button class="bg-blue-600 text-white px-4 py-1 rounded mr-1" disabled>
+                    <i class="fa fa-angle-left mr-2"></i>
+                    หน้าแรก
+                </button>
+            @endif
+
+            <!-- หน้าอื่นๆ -->
+            @for ($i = 2; $i < $totalPages; $i++)
+                @if ($i == $currentPage)
+                    <button class="bg-blue-600 text-white px-4 py-1 rounded mr-1" disabled>{{ $i }}</button>
+                @else
+                    <button class="bg-blue-900 text-white px-4 py-1 rounded mr-1"
+                        wire:click="setPage({{ $i }})">{{ $i }}</button>
+                @endif
+            @endfor
+
+            <!-- หน้าสุดท้าย -->
+            @if ($currentPage < $totalPages)
+                <button class="bg-blue-900 text-white px-4 py-1 rounded mr-1"
+                    wire:click="setPage({{ $totalPages }})">
+                    <i class="fa fa-angle-right mr-2"></i>
+                    หน้าสุดท้าย
+                </button>
+            @else
+                <button class="bg-blue-600 text-white px-4 py-1 rounded mr-1" disabled>
+                    <i class="fa fa-angle-right mr-2"></i>
+                    หน้าสุดท้าย
+                </button>
+            @endif
+        </div>
     </div>
 
     <x-modal wire:model="showModal" title="ห้องพัก" maxWidth="xl">
